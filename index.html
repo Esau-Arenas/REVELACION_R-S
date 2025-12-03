@@ -588,7 +588,7 @@
           <div class="info-card">
             <h3><span class="icon">📋</span> Detalles del Evento</h3>
             <p><strong>🎪 Actividades:</strong> Juegos, sorpresas y revelación especial</p>
-            <p><strong>🎂 Refrigerio:</strong> Pastel y bocadillos incluidos</p>
+            <p><strong>🎂 Refrigerio:</strong> Bocadillos incluidos</p>
             <p><strong>🎁 Team Niño:</strong> Prenda Azul y pañales</p>
             <p><strong>🎁 Team Niña:</strong> Prenda Rosa y toallitas humedas</p>
           </div>
@@ -842,7 +842,7 @@
       }
     }
 
-    // Enviar confirmación por WhatsApp - CORREGIDO PARA MÓVILES
+    // Enviar confirmación por WhatsApp - CORREGIDO
     function sendWhatsAppConfirmation() {
       const name = nameInput.value.trim();
       const guests = guestsInput.value.trim();
@@ -864,19 +864,32 @@
                      `Ubicación: ${CONFIG.addressText}\n` +
                      `¡Estoy emocionado(a) por conocer el género! 🎉`;
 
-      // IMPORTANTE: Usar api.whatsapp.com para móviles
+      // IMPORTANTE: CORREGIDO - La condición estaba al revés
       let whatsappUrl;
-      if (CONFIG.whatsappNumber && CONFIG.whatsappNumber !== "50232807486") {
-        // Para móviles y escritorio
+      if (CONFIG.whatsappNumber && CONFIG.whatsappNumber === "50232807486") {
+        // CORRECTO: Si el número es el correcto, usar la URL con el número
         whatsappUrl = `https://api.whatsapp.com/send?phone=${CONFIG.whatsappNumber}&text=${encodeURIComponent(message)}`;
       } else {
-        // Si no hay número configurado
+        // Si no hay número configurado o es diferente
         whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
         alert('Por favor, comparte este mensaje con el organizador del evento.');
       }
 
-      // Abrir en nueva ventana/pestaña
-      window.open(whatsappUrl, '_blank');
+      // IMPORTANTE: Para mejores resultados en móviles
+      // Intentar abrir en la misma ventana primero (mejor para móviles)
+      try {
+        // Para dispositivos móviles
+        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+          // Usar window.location.href para abrir directamente en la app
+          window.location.href = whatsappUrl;
+        } else {
+          // Para escritorio, abrir en nueva pestaña
+          window.open(whatsappUrl, '_blank');
+        }
+      } catch (e) {
+        // Si hay error, abrir normalmente
+        window.open(whatsappUrl, '_blank');
+      }
     }
 
     // Event Listeners principales
