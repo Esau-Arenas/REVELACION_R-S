@@ -129,32 +129,20 @@
       object-fit: contain; /* Mantiene proporción del video */
     }
 
-    .video-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-      padding: 20px 15px;
+    /* Controles FUERA del contenedor de video */
+    .video-controls-container {
       display: flex;
       flex-direction: column;
-      gap: 12px;
       align-items: center;
-      text-align: center;
-    }
-
-    .video-title {
-      color: white;
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 0;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      gap: 15px;
+      margin-top: 20px;
     }
 
     .controls {
       display: flex;
-      gap: 10px;
+      gap: 15px;
       width: 100%;
+      max-width: 400px;
       justify-content: center;
       flex-wrap: wrap;
     }
@@ -162,7 +150,7 @@
     .btn {
       background: var(--glass);
       color: var(--muted);
-      padding: 10px 20px;
+      padding: 12px 24px;
       border-radius: 12px;
       font-weight: 600;
       border: 1px solid rgba(255,255,255,0.1);
@@ -170,9 +158,10 @@
       backdrop-filter: blur(4px);
       display: flex;
       align-items: center;
-      gap: 8px;
-      min-width: 140px;
+      gap: 10px;
+      min-width: 160px;
       justify-content: center;
+      font-size: 1rem;
     }
 
     .btn:hover {
@@ -194,6 +183,14 @@
     .btn-primary:hover {
       background: linear-gradient(90deg, #ff7bab, #7babff);
       box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+    }
+
+    .video-title {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0 0 15px 0;
+      text-align: center;
     }
 
     .reveal-section {
@@ -361,20 +358,6 @@
       background: rgba(0, 0, 0, 0.9);
     }
 
-    /* Mensaje de instrucción de audio */
-    .audio-message {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      z-index: 10;
-      display: none;
-    }
-
     /* RESPONSIVE PARA VIDEO VERTICAL */
     @media (max-width: 768px) {
       .card {
@@ -395,19 +378,18 @@
         max-height: 600px;
       }
 
-      .video-overlay {
-        padding: 15px 10px;
+      .video-controls-container {
+        margin-top: 15px;
       }
 
-      .video-title {
-        font-size: 1rem;
-        margin-bottom: 5px;
+      .controls {
+        max-width: 350px;
       }
 
       .btn {
-        min-width: 120px;
-        padding: 8px 15px;
-        font-size: 0.9rem;
+        min-width: 140px;
+        padding: 10px 20px;
+        font-size: 0.95rem;
       }
 
       .info-grid {
@@ -465,11 +447,14 @@
       .controls {
         flex-direction: column;
         align-items: stretch;
+        max-width: 300px;
       }
 
       .btn {
         min-width: 100%;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
+        padding: 10px 15px;
+        font-size: 0.9rem;
       }
 
       .btn:last-child {
@@ -526,6 +511,10 @@
         font-size: 0.8rem;
         padding: 5px 12px;
       }
+
+      .controls {
+        max-width: 280px;
+      }
     }
 
     /* Para pantallas grandes con video vertical */
@@ -557,28 +546,24 @@
           🔇
         </button>
         
-        <!-- Mensaje de audio -->
-        <div id="audioMessage" class="audio-message">
-          🔊 Haz clic para activar sonido
-        </div>
-        
         <!-- IMPORTANTE: Reemplaza la ruta del video vertical -->
         <video id="introVideo" playsinline>
           <source src="video/invitacion.mp4" type="video/mp4">
           <source src="video/invitacion.webm" type="video/webm">
           Tu navegador no soporta el elemento de video.
         </video>
-        
-        <div class="video-overlay">
-          <h3 class="video-title">🎬 Reproduce el video para descubrir</h3>
-          <div class="controls">
-            <button id="playPause" class="btn">
-              <span>▶️</span> Reproducir
-            </button>
-            <button id="skip" class="btn btn-primary">
-              <span>🚀</span> Confirmar asistencia
-            </button>
-          </div>
+      </div>
+
+      <!-- Controles FUERA del contenedor de video -->
+      <div class="video-controls-container">
+        <h3 class="video-title">🎬 Reproduce el video para descubrir</h3>
+        <div class="controls">
+          <button id="playPause" class="btn">
+            <span>▶️</span> Reproducir
+          </button>
+          <button id="skip" class="btn btn-primary">
+            <span>🚀</span> Confirmar asistencia
+          </button>
         </div>
       </div>
 
@@ -662,7 +647,6 @@
     const mapsLink = document.getElementById('mapsLink');
     const addressEl = document.getElementById('address');
     const volumeBtn = document.getElementById('volumeBtn');
-    const audioMessage = document.getElementById('audioMessage');
 
     // Variables de control
     let hasVideoEnded = false;
@@ -682,15 +666,51 @@
       // Configurar video
       setupVideo();
 
-      // Mostrar mensaje de audio inicial
-      setTimeout(() => {
-        if (isMuted) {
-          audioMessage.style.display = 'block';
-          setTimeout(() => {
-            audioMessage.style.display = 'none';
-          }, 3000);
+      // Mostrar instrucción inicial
+      showInitialInstruction();
+    }
+
+    // Mostrar instrucción inicial
+    function showInitialInstruction() {
+      // Mostrar mensaje temporal
+      const message = document.createElement('div');
+      message.innerHTML = '🔊 <strong>Haz clic en "Reproducir" para activar el sonido</strong>';
+      message.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+        color: white;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        animation: fadeInOut 3s ease;
+        text-align: center;
+      `;
+      
+      // Añadir estilos para la animación
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fadeInOut {
+          0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+          15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
         }
-      }, 1000);
+      `;
+      document.head.appendChild(style);
+      
+      document.body.appendChild(message);
+      
+      // Remover después de 3 segundos
+      setTimeout(() => {
+        if (message.parentNode) {
+          message.parentNode.removeChild(message);
+        }
+      }, 3000);
     }
 
     // Configurar video
@@ -822,7 +842,7 @@
       }
     }
 
-    // Enviar confirmación por WhatsApp
+    // Enviar confirmación por WhatsApp - CORREGIDO PARA MÓVILES
     function sendWhatsAppConfirmation() {
       const name = nameInput.value.trim();
       const guests = guestsInput.value.trim();
@@ -844,14 +864,18 @@
                      `Ubicación: ${CONFIG.addressText}\n` +
                      `¡Estoy emocionado(a) por conocer el género! 🎉`;
 
+      // IMPORTANTE: Usar api.whatsapp.com para móviles
       let whatsappUrl;
       if (CONFIG.whatsappNumber && CONFIG.whatsappNumber !== "50232807486") {
-        whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+        // Para móviles y escritorio
+        whatsappUrl = `https://api.whatsapp.com/send?phone=${CONFIG.whatsappNumber}&text=${encodeURIComponent(message)}`;
       } else {
-        whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+        // Si no hay número configurado
+        whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
         alert('Por favor, comparte este mensaje con el organizador del evento.');
       }
 
+      // Abrir en nueva ventana/pestaña
       window.open(whatsappUrl, '_blank');
     }
 
