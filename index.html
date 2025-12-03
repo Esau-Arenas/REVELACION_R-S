@@ -623,7 +623,7 @@
   <script>
     // --- CONFIGURACIÓN ---
     const CONFIG = {
-      whatsappNumber: "50232807486", // Número con código de país
+      whatsappNumber: "50233617095", // Número con código de país
       eventName: "Revelación de Género",
       eventDate: "Domingo 14.12.2025",
       eventTime: "2:00 PM",
@@ -866,7 +866,7 @@
 
       // IMPORTANTE: CORREGIDO - La condición estaba al revés
       let whatsappUrl;
-      if (CONFIG.whatsappNumber && CONFIG.whatsappNumber === "50232807486") {
+      if (CONFIG.whatsappNumber && CONFIG.whatsappNumber === "50233617095") {
         // CORRECTO: Si el número es el correcto, usar la URL con el número
         whatsappUrl = `https://api.whatsapp.com/send?phone=${CONFIG.whatsappNumber}&text=${encodeURIComponent(message)}`;
       } else {
