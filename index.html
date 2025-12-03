@@ -1,0 +1,904 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🎀🎈¡Revelación de Género!🎈🎀</title>
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent-pink: #ff6b9d;
+      --accent-blue: #6ba2ff;
+      --accent: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+      --muted: #cbd5e1;
+      --glass: rgba(255,255,255,0.05);
+      --radius: 20px;
+      font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: var(--muted);
+      overflow-x: hidden;
+    }
+
+    body {
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(107, 162, 255, 0.1) 0%, transparent 20%);
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 1000px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+      z-index: 1;
+    }
+
+    .header-glow {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .header-glow h1 {
+      font-size: 2.8rem;
+      background: linear-gradient(90deg, #ff6b9d, #6ba2ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0 0 10px 0;
+      text-shadow: 0 0 30px rgba(255, 107, 157, 0.3);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .header-glow p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .date-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+      color: white;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      margin-top: 15px;
+      box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+    }
+
+    /* Contenedor de video optimizado para vertical */
+    .video-container {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      margin: 25px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      max-width: 400px; /* Ancho máximo para video vertical */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Video optimizado para formato vertical */
+    video {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 700px; /* Altura máxima para vertical */
+      object-fit: contain; /* Mantiene proporción del video */
+    }
+
+    .video-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 20px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .video-title {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--glass);
+      color: var(--muted);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 140px;
+      justify-content: center;
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #ff7bab, #7babff);
+      box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+    }
+
+    .reveal-section {
+      margin-top: 30px;
+      padding: 30px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      display: none;
+      gap: 25px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+
+    .info-card {
+      background: var(--glass);
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .info-card h3 {
+      color: white;
+      margin: 0 0 15px 0;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-card p {
+      margin: 0 0 15px 0;
+      line-height: 1.6;
+    }
+
+    .icon {
+      font-size: 1.5rem;
+    }
+
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .map-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+    }
+
+    .rsvp-form {
+      background: var(--glass);
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .form-title {
+      color: white;
+      margin: 0 0 20px 0;
+      font-size: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    .input-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .input-group label {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.3);
+      color: white;
+      font-size: 1rem;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 0 2px rgba(255, 107, 157, 0.2);
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-pink);
+      border-radius: 50%;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    .gender-reveal {
+      text-align: center;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 16px;
+      background: linear-gradient(90deg, rgba(255,107,157,0.1), rgba(107,162,255,0.1));
+      display: none;
+    }
+
+    .gender-reveal h2 {
+      font-size: 2.5rem;
+      margin: 0;
+      background: linear-gradient(90deg, #ff6b9d, #6ba2ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+    }
+
+    /* Botón de volumen */
+    .volume-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      font-size: 1.2rem;
+    }
+
+    .volume-btn:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    /* Mensaje de instrucción de audio */
+    .audio-message {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      z-index: 10;
+      display: none;
+    }
+
+    /* RESPONSIVE PARA VIDEO VERTICAL */
+    @media (max-width: 768px) {
+      .card {
+        padding: 20px 15px;
+      }
+
+      .header-glow h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+      }
+
+      .video-container {
+        max-width: 350px;
+        margin: 20px auto;
+      }
+
+      video {
+        max-height: 600px;
+      }
+
+      .video-overlay {
+        padding: 15px 10px;
+      }
+
+      .video-title {
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+
+      .btn {
+        min-width: 120px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .info-card {
+        padding: 20px;
+      }
+
+      .form-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .input-group {
+        min-width: 100%;
+      }
+
+      .input-group input {
+        padding: 10px 14px;
+      }
+
+      .gender-reveal h2 {
+        font-size: 2rem;
+      }
+
+      .volume-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-glow h1 {
+        font-size: 1.6rem;
+      }
+
+      .date-badge {
+        font-size: 0.9rem;
+        padding: 6px 15px;
+        margin-top: 10px;
+      }
+
+      .video-container {
+        max-width: 300px;
+      }
+
+      video {
+        max-height: 500px;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        min-width: 100%;
+        margin-bottom: 5px;
+      }
+
+      .btn:last-child {
+        margin-bottom: 0;
+      }
+
+      .reveal-section {
+        padding: 20px 15px;
+      }
+
+      .rsvp-form {
+        padding: 20px;
+      }
+
+      .form-title {
+        font-size: 1.3rem;
+      }
+
+      .gender-reveal {
+        padding: 15px;
+        margin: 15px 0;
+      }
+
+      .gender-reveal h2 {
+        font-size: 1.8rem;
+      }
+
+      .map-link {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .volume-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .video-container {
+        max-width: 280px;
+      }
+
+      video {
+        max-height: 450px;
+      }
+
+      .header-glow h1 {
+        font-size: 1.4rem;
+      }
+
+      .date-badge {
+        font-size: 0.8rem;
+        padding: 5px 12px;
+      }
+    }
+
+    /* Para pantallas grandes con video vertical */
+    @media (min-width: 1400px) {
+      .video-container {
+        max-width: 450px;
+      }
+
+      video {
+        max-height: 800px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header-glow">
+        <h1>🎀🎈 ¡Revelación de Género! 🎈🎀</h1>
+        <p>Descubre junto a nosotros el emocionante secreto</p>
+        <div class="date-badge">
+          📅 Domingo 14.12.2025 ⏰ 2:00 PM
+        </div>
+      </div>
+
+      <div class="video-container">
+        <!-- Botón de volumen -->
+        <button id="volumeBtn" class="volume-btn" title="Activar sonido">
+          🔇
+        </button>
+        
+        <!-- Mensaje de audio -->
+        <div id="audioMessage" class="audio-message">
+          🔊 Haz clic para activar sonido
+        </div>
+        
+        <!-- IMPORTANTE: Reemplaza la ruta del video vertical -->
+        <video id="introVideo" playsinline>
+          <source src="video/invitacion.mp4" type="video/mp4">
+          <source src="video/invitacion.webm" type="video/webm">
+          Tu navegador no soporta el elemento de video.
+        </video>
+        
+        <div class="video-overlay">
+          <h3 class="video-title">🎬 Reproduce el video para descubrir</h3>
+          <div class="controls">
+            <button id="playPause" class="btn">
+              <span>▶️</span> Reproducir
+            </button>
+            <button id="skip" class="btn btn-primary">
+              <span>🚀</span> Confirmar asistencia
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de revelación (opcional) -->
+      <div id="genderReveal" class="gender-reveal">
+        <h2 id="revealText">¡Es una niña! 👶🎀</h2>
+      </div>
+
+      <div id="after" class="reveal-section">
+        <div class="info-grid">
+          <div class="info-card">
+            <h3><span class="icon">📍</span> Ubicación</h3>
+            <p id="address">Hacienda las Marias, ruta a chiquimulilla Cuilapa Santa Rosa.</p>
+            <a id="mapsLink" class="map-link" target="_blank" rel="noopener">
+              <span>🗺️</span> Abrir en Google Maps
+            </a>
+            <p class="small" style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+              ⏰ Llegar 15 minutos antes para mejor ubicación
+            </p>
+          </div>
+
+          <div class="info-card">
+            <h3><span class="icon">📋</span> Detalles del Evento</h3>
+            <p><strong>🎪 Actividades:</strong> Juegos, sorpresas y revelación especial</p>
+            <p><strong>🎂 Refrigerio:</strong> Pastel y bocadillos incluidos</p>
+            <p><strong>🎁 Team Niño:</strong> Prenda Azul y pañales</p>
+            <p><strong>🎁 Team Niña:</strong> Prenda Rosa y toallitas humedas</p>
+          </div>
+        </div>
+
+        <div class="rsvp-form">
+          <h3 class="form-title">📝 Confirmar Asistencia</h3>
+          <form id="rsvpForm" class="form-group" onsubmit="return false;">
+            <div class="input-group">
+              <label for="name">Nombre completo</label>
+              <input id="name" type="text" placeholder="Escribe tu nombre" required />
+            </div>
+            <div class="input-group">
+              <label for="guests">Número de personas</label>
+              <input id="guests" type="number" min="1" max="10" value="1" required />
+            </div>
+            <div class="input-group">
+              <label>&nbsp;</label>
+              <button id="sendBtn" class="btn btn-primary" style="width: 100%;">
+                <span>💌</span> Confirmar por WhatsApp
+              </button>
+            </div>
+          </form>
+          <p class="small" style="margin-top: 15px; opacity: 0.8; font-size: 0.9rem;">
+            📲 Al confirmar se abrirá WhatsApp con el mensaje preparado.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- CONFIGURACIÓN ---
+    const CONFIG = {
+      whatsappNumber: "50232807486", // Número con código de país
+      eventName: "Revelación de Género",
+      eventDate: "Domingo 14.12.2025",
+      eventTime: "2:00 PM",
+      mapsUrl: "https://maps.app.goo.gl/t8LA7f4o99gjtwy79", // Enlace de Google Maps
+      addressText: "Hacienda las Marias, ruta a chiquimulilla Cuilapa Santa Rosa.",
+      // Para la revelación del género
+      genderReveal: true, // Cambia a false si no quieres mostrar revelación
+      genderText: "¡Es una niña! 👶🎀", // Cambia a "¡Es un niño! 👶🎈" si aplica
+    };
+
+    // Elementos del DOM
+    const video = document.getElementById('introVideo');
+    const after = document.getElementById('after');
+    const genderReveal = document.getElementById('genderReveal');
+    const revealText = document.getElementById('revealText');
+    const playPauseBtn = document.getElementById('playPause');
+    const skipBtn = document.getElementById('skip');
+    const sendBtn = document.getElementById('sendBtn');
+    const nameInput = document.getElementById('name');
+    const guestsInput = document.getElementById('guests');
+    const mapsLink = document.getElementById('mapsLink');
+    const addressEl = document.getElementById('address');
+    const volumeBtn = document.getElementById('volumeBtn');
+    const audioMessage = document.getElementById('audioMessage');
+
+    // Variables de control
+    let hasVideoEnded = false;
+    let isMuted = true; // Comienza silenciado por políticas de autoplay
+    let userInteracted = false; // Para saber si el usuario ya interactuó
+
+    // Inicialización
+    function init() {
+      // Configurar textos
+      mapsLink.href = CONFIG.mapsUrl;
+      addressEl.textContent = CONFIG.addressText;
+      
+      if (CONFIG.genderReveal) {
+        revealText.textContent = CONFIG.genderText;
+      }
+
+      // Configurar video
+      setupVideo();
+
+      // Mostrar mensaje de audio inicial
+      setTimeout(() => {
+        if (isMuted) {
+          audioMessage.style.display = 'block';
+          setTimeout(() => {
+            audioMessage.style.display = 'none';
+          }, 3000);
+        }
+      }, 1000);
+    }
+
+    // Configurar video
+    function setupVideo() {
+      // Ocultar controles nativos
+      video.controls = false;
+      
+      // Silenciar inicialmente para permitir autoplay
+      video.muted = true;
+      isMuted = true;
+      updateVolumeButton();
+      
+      // Intentar reproducción automática (silenciada)
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          playPauseBtn.innerHTML = '<span>⏸️</span> Pausar';
+        }).catch(() => {
+          // Si autoplay falla
+          playPauseBtn.innerHTML = '<span>▶️</span> Reproducir';
+        });
+      }
+    }
+
+    // Actualizar botón de volumen
+    function updateVolumeButton() {
+      if (isMuted) {
+        volumeBtn.innerHTML = '🔇';
+        volumeBtn.title = 'Activar sonido';
+      } else {
+        volumeBtn.innerHTML = '🔊';
+        volumeBtn.title = 'Silenciar';
+      }
+    }
+
+    // Alternar silencio
+    function toggleMute() {
+      isMuted = !isMuted;
+      video.muted = isMuted;
+      updateVolumeButton();
+      
+      // Registrar interacción del usuario
+      userInteracted = true;
+    }
+
+    // Controlar reproducción del video CON AUDIO
+    function togglePlayPause() {
+      // Si es la primera interacción, quitar silencio
+      if (!userInteracted) {
+        video.muted = false;
+        isMuted = false;
+        updateVolumeButton();
+        userInteracted = true;
+      }
+      
+      if (video.paused) {
+        video.play();
+        playPauseBtn.innerHTML = '<span>⏸️</span> Pausar';
+      } else {
+        video.pause();
+        playPauseBtn.innerHTML = '<span>▶️</span> Reproducir';
+      }
+    }
+
+    // Configurar controles táctiles para móviles
+    function setupTouchControls() {
+      video.addEventListener('click', togglePlayPause);
+      
+      let tapCount = 0;
+      video.addEventListener('click', (e) => {
+        tapCount++;
+        if (tapCount === 2) {
+          video.currentTime = 0;
+          tapCount = 0;
+        }
+        setTimeout(() => { tapCount = 0; }, 300);
+      });
+    }
+
+    // Mostrar sección de detalles
+    function showDetails() {
+      after.style.display = 'block';
+      
+      if (CONFIG.genderReveal && !hasVideoEnded) {
+        genderReveal.style.display = 'block';
+        createConfetti();
+      }
+      
+      // Scroll suave
+      setTimeout(() => {
+        after.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 300);
+    }
+
+    // Crear efecto de confeti
+    function createConfetti() {
+      const colors = ['#ff6b9d', '#6ba2ff', '#ffd166', '#06d6a0'];
+      const cardRect = document.querySelector('.card').getBoundingClientRect();
+      
+      for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * cardRect.width + 'px';
+        confetti.style.top = Math.random() * 100 + 'px';
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = confetti.style.width;
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.opacity = Math.random() * 0.7 + 0.3;
+        document.querySelector('.card').appendChild(confetti);
+        
+        // Animar
+        confetti.animate([
+          { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+          { transform: `translateY(${Math.random() * 300 + 100}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+        ], {
+          duration: Math.random() * 2000 + 1000,
+          easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+        });
+        
+        // Eliminar después de animación
+        setTimeout(() => {
+          if (confetti.parentNode) {
+            confetti.parentNode.removeChild(confetti);
+          }
+        }, 3000);
+      }
+    }
+
+    // Enviar confirmación por WhatsApp
+    function sendWhatsAppConfirmation() {
+      const name = nameInput.value.trim();
+      const guests = guestsInput.value.trim();
+
+      if (!name) {
+        alert('Por favor ingresa tu nombre');
+        nameInput.focus();
+        return;
+      }
+
+      if (!guests || Number(guests) < 1) {
+        alert('Por favor ingresa un número válido de personas');
+        guestsInput.focus();
+        return;
+      }
+
+      const message = `Hola, soy ${name}. Confirmo mi asistencia a la ${CONFIG.eventName} el ${CONFIG.eventDate} a las ${CONFIG.eventTime}.\n` +
+                     `Número de personas: ${guests}\n` +
+                     `Ubicación: ${CONFIG.addressText}\n` +
+                     `¡Estoy emocionado(a) por conocer el género! 🎉`;
+
+      let whatsappUrl;
+      if (CONFIG.whatsappNumber && CONFIG.whatsappNumber !== "50232807486") {
+        whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+      } else {
+        whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+        alert('Por favor, comparte este mensaje con el organizador del evento.');
+      }
+
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // Event Listeners principales
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    volumeBtn.addEventListener('click', toggleMute);
+    
+    skipBtn.addEventListener('click', () => {
+      if (!video.paused) video.pause();
+      hasVideoEnded = true;
+      showDetails();
+    });
+
+    video.addEventListener('ended', () => {
+      playPauseBtn.innerHTML = '<span>▶️</span> Reproducir';
+      hasVideoEnded = true;
+      showDetails();
+    });
+
+    sendBtn.addEventListener('click', sendWhatsAppConfirmation);
+
+    // Permitir enter para enviar formulario
+    nameInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendWhatsAppConfirmation();
+    });
+
+    guestsInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendWhatsAppConfirmation();
+    });
+
+    // Cuando el usuario interactúa con la página, activar audio
+    document.addEventListener('click', () => {
+      if (!userInteracted) {
+        userInteracted = true;
+      }
+    });
+
+    // Inicializar cuando cargue la página
+    window.addEventListener('DOMContentLoaded', init);
+    setupTouchControls(); // Llamar después de que el DOM esté listo
+
+    // Ajustar tamaño del video al cargar
+    window.addEventListener('load', () => {
+      if (window.innerWidth <= 768) {
+        video.style.maxHeight = Math.min(window.innerHeight * 0.6, 600) + 'px';
+      }
+    });
+  </script>
+</body>
+</html>
